@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+//import java.util.Base64;
 import java.util.Scanner;
 
 import javax.crypto.BadPaddingException;
@@ -35,7 +35,7 @@ public class MahoaDES {
         Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5PADDING");
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
         byte[] byteEncrypted = cipher.doFinal(text.getBytes());
-        String encrypted =  Base64.getEncoder().encodeToString(byteEncrypted);
+        //String encrypted =  Base64.getEncoder().encodeToString(byteEncrypted);
         
         // Chuỗi gốc sau khi giải mã
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);

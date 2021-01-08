@@ -45,19 +45,17 @@ public class Test {
         FileReader reader = null;
         FileWriter fw = new FileWriter("textOut.txt");
 
-        String url = "text2.txt";
+        //String url = "text1.txt";
         // Đọc dữ liệu từ File với Scanner
-        FileInputStream fileInputStream = new FileInputStream(url);
-        original = new Scanner(fileInputStream);
-        String text = original.nextLine();
-        file = new File("text2.txt");
+        // FileInputStream fileInputStream = new FileInputStream(url);
+        // original = new Scanner(fileInputStream);
+        // String text = original.nextLine();
+        file = new File("text1.txt");
         reader = new FileReader(file);
         int i;
 
         try {
-            
-
-            if(file.length() > 245){
+            //if(file.length() > 245){
                 long start = java.util.Calendar.getInstance().getTimeInMillis();
                 while ((i = reader.read()) != -1) {
                     char t = (char) i;
@@ -78,23 +76,23 @@ public class Test {
                 }
                 long end = java.util.Calendar.getInstance().getTimeInMillis();
                 System.out.println("Speed: " + (end - start) + "ms");
-            }else {
-                long start = java.util.Calendar.getInstance().getTimeInMillis();
-                PrivateKey privateKey = getPrivateKey();
-                PublicKey publicKey = getPublicKey();
-                Cipher cipher = Cipher.getInstance("RSA");
-                cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-                byte[] byteEncrypted = cipher.doFinal(text.getBytes());
-                encrypted =  Base64.getEncoder().encodeToString(byteEncrypted);                
+            // }else {
+            //     long start = java.util.Calendar.getInstance().getTimeInMillis();
+            //     PrivateKey privateKey = getPrivateKey();
+            //     PublicKey publicKey = getPublicKey();
+            //     Cipher cipher = Cipher.getInstance("RSA");
+            //     cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            //     byte[] byteEncrypted = cipher.doFinal(text.getBytes());
+            //     encrypted =  Base64.getEncoder().encodeToString(byteEncrypted);                
                 
-                cipher.init(Cipher.DECRYPT_MODE, privateKey);
-                byte[] byteDecrypted = cipher.doFinal(byteEncrypted);
-                decrypted = new String(byteDecrypted);
+            //     cipher.init(Cipher.DECRYPT_MODE, privateKey);
+            //     byte[] byteDecrypted = cipher.doFinal(byteEncrypted);
+            //     decrypted = new String(byteDecrypted);
 
-                fw.write(decrypted);
-                long end = java.util.Calendar.getInstance().getTimeInMillis();
-                System.out.println("Speed: " + (end - start) + "ms");
-            }
+            //     fw.write(decrypted);
+            //     long end = java.util.Calendar.getInstance().getTimeInMillis();
+            //     System.out.println("Speed: " + (end - start) + "ms");
+            // }
             
         } catch (Exception e) {
             e.printStackTrace();
