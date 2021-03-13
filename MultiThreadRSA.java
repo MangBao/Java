@@ -1,5 +1,5 @@
 import java.io.File;
-import java.io.FileInputStream;
+//import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,7 +13,7 @@ import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
-import java.util.Scanner;
+//import java.util.Scanner;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -36,28 +36,15 @@ public class MultiThreadRSA {
         return kf.generatePublic(spec);
     }
 
-    private static String encrypted;
     private static String decrypted;
-    private static Scanner original;
-
-    public static void main(String[] args) throws IOException {
-        // File file = null;
-        // FileReader reader = null;
-        // FileWriter fw = new FileWriter("textOut.txt");
-
-        // String url = "text2.txt";
-        // Đọc dữ liệu từ File với Scanner
-        // FileInputStream fileInputStream = new FileInputStream(url);
-        // original = new Scanner(fileInputStream);
-        // String text = original.nextLine();
-        // file = new File("text1.txt");
-        // reader = new FileReader(file);
+    
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         Thread t2 = new Thread(new Runnable() {
             @Override
             public void run() {
                 File file = null;
-                file = new File("text1.txt");
+                file = new File("text2.txt");
 
                 FileReader reader = null;
                 try {
@@ -73,7 +60,7 @@ public class MultiThreadRSA {
                         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 
                         byte[] byteEncrypted = cipher.doFinal(temp.getBytes());
-                        encrypted = Base64.getEncoder().encodeToString(byteEncrypted);
+                        Base64.getEncoder().encodeToString(byteEncrypted);
 
                         cipher.init(Cipher.DECRYPT_MODE, privateKey);
                         byte[] byteDecrypted = cipher.doFinal(byteEncrypted);
@@ -100,33 +87,43 @@ public class MultiThreadRSA {
             @Override
             public void run() {
                 File file = null;
-                file = new File("text1.txt");
+                file = new File("text2.txt");
+
+                FileReader reader = null;
                 try {
-                    // FileWriter fw = new FileWriter("textOut.txt");
+                    
+                    reader = new FileReader(file);
+                    FileWriter fw = new FileWriter("textOut.txt");
+                    int i;
+                    while ((i = reader.read()) != -1) {
+                        char t = (char) i;
+                        String temp = Character.toString(t);
+                        PrivateKey privateKey = getPrivateKey();
+                        PublicKey publicKey = getPublicKey();
+                        Cipher cipher = Cipher.getInstance("RSA");
+                        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 
-                    long start = java.util.Calendar.getInstance().getTimeInMillis();
-                    t2.start();
-                    t2.join();
-                    long end = java.util.Calendar.getInstance().getTimeInMillis();
-                    System.out.println("Speed: " + (end - start) + "ms");
+                        byte[] byteEncrypted = cipher.doFinal(temp.getBytes());
+                        Base64.getEncoder().encodeToString(byteEncrypted);
 
-                    // fw.close();
+                        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+                        byte[] byteDecrypted = cipher.doFinal(byteEncrypted);
+                        decrypted = new String(byteDecrypted);
+
+                        fw.write(decrypted);
+                    }
+                    fw.close();
+                    
                 } catch (Exception e) {
                     e.printStackTrace();
-                } finally {
-                    FileReader reader = null;
-                    try {
-                        reader = new FileReader(file);
-                        if (reader != null) {
-                            reader.close();
-                        }
-                    } catch (Exception e2) {
-                        e2.printStackTrace();
-                    }
                 }
             }
         });
+        long start = java.util.Calendar.getInstance().getTimeInMillis();
+        t2.start();
+        t2.join();
         t1.start();
-
+        long end = java.util.Calendar.getInstance().getTimeInMillis();
+        System.out.println("Speed: " + (end - start) + "ms");
     }
 }
