@@ -1,0 +1,3 @@
+Cô cũng có thể mở code ra chạy lại ở trong Netbeans và kiểm tra kết quả nếu không mở được bằng Visual Studio Code ạ.
+Tại vì Visual Studio Code của em có cài IDE cho việc chạy ngôn ngữ Java nên em làm trên trình Editor này luôn ạ.
+Em cảm ơn cô vì dành chút thời gian ra đọc Note này ạ!!!
